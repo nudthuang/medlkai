@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MedlinkAI | Peter Huang</title>
+  <meta name="description" content="Peter Huang 的 MedlinkAI 企業電子名片原型">
+  <style>
+    :root {
+      --ink: #10202f;
+      --muted: #667787;
+      --line: #dce7ec;
+      --soft: #f5faf9;
+      --panel: #ffffff;
+      --teal: #078a8f;
+      --teal-dark: #05666b;
+      --blue: #1f5f99;
+      --amber: #d89a3a;
+      --shadow: 0 24px 70px rgba(16, 32, 47, .14);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(140deg, rgba(7, 138, 143, .13), rgba(31, 95, 153, .08) 38%, rgba(255,255,255,0) 62%),
+        radial-gradient(circle at 85% 12%, rgba(216, 154, 58, .12), rgba(255,255,255,0) 26%),
+        #f7fbfc;
+      min-height: 100vh;
+      letter-spacing: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 22px 0 32px;
+    }
+
+    .brandbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 10px 24px rgba(7, 138, 143, .24);
+      flex: 0 0 auto;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 17px;
+      line-height: 1.1;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 12px;
+      display: block;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .language {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.72);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: var(--muted);
+      font-size: 13px;
+      flex: 0 0 auto;
+    }
+
+    .shell {
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(220, 231, 236, .9);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .profile {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .hero {
+      background: linear-gradient(160deg, rgba(7, 138, 143, .12), rgba(31, 95, 153, .06)), var(--panel);
+      padding: 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .portrait-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .portrait {
+      width: 92px;
+      height: 92px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 3px solid white;
+      box-shadow: 0 14px 36px rgba(16, 32, 47, .18);
+      flex: 0 0 auto;
+    }
+
+    .identity {
+      min-width: 0;
+    }
+
+    .eyebrow {
+      color: var(--teal-dark);
+      font-size: 12px;
+      font-weight: 750;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 31px;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .title {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .button {
+      border: 1px solid var(--line);
+      background: white;
+      min-height: 48px;
+      border-radius: 8px;
+      padding: 11px 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 750;
+      color: var(--ink);
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+      font-size: 14px;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(7, 138, 143, .42);
+      box-shadow: 0 10px 22px rgba(16, 32, 47, .08);
+    }
+
+    .button.primary {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: white;
+    }
+
+    .button.accent {
+      background: #eaf8f6;
+      border-color: #bfe5df;
+      color: var(--teal-dark);
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+    }
+
+    .content {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .section {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+    }
+
+    .section h2 {
+      font-size: 14px;
+      margin: 0 0 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--teal-dark);
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .contact-row {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      align-items: start;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .contact-row .mini {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: var(--soft);
+      color: var(--teal-dark);
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 2px;
+    }
+
+    .value {
+      font-weight: 700;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .bio {
+      margin: 0;
+      color: #324656;
+      line-height: 1.72;
+      font-size: 15px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      border: 1px solid #cfe2e7;
+      background: #f8fcfc;
+      border-radius: 999px;
+      padding: 8px 10px;
+      color: #274352;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .qr-grid {
+      display: grid;
+      grid-template-columns: 138px 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    #qrCanvas {
+      width: 138px;
+      height: 138px;
+      border-radius: 8px;
+      background: white;
+      border: 1px solid var(--line);
+      padding: 8px;
+    }
+
+    .qr-copy strong {
+      display: block;
+      font-size: 17px;
+      margin-bottom: 6px;
+    }
+
+    .qr-copy p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .meta-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--line);
+      background: #fbfdfd;
+    }
+
+    .metric {
+      padding: 14px 16px;
+      border-right: 1px solid var(--line);
+    }
+
+    .metric:last-child { border-right: 0; }
+
+    .metric b {
+      display: block;
+      font-size: 19px;
+      line-height: 1;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 12px;
+      display: block;
+      margin-top: 6px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%) translateY(18px);
+      opacity: 0;
+      pointer-events: none;
+      background: #10202f;
+      color: white;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 14px;
+      transition: opacity .2s ease, transform .2s ease;
+      box-shadow: 0 14px 38px rgba(16,32,47,.22);
+      z-index: 5;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 420px) {
+      .page { width: min(100% - 20px, 1180px); padding-top: 12px; }
+      .brandbar { align-items: flex-start; }
+      .language { display: none; }
+      .hero { padding: 18px; }
+      .portrait-wrap { align-items: flex-start; }
+      .portrait { width: 82px; height: 82px; }
+      h1 { font-size: 27px; }
+      .quick-actions { grid-template-columns: 1fr; }
+      .content { padding: 12px; }
+      .section { padding: 15px; }
+      .qr-grid { grid-template-columns: 1fr; }
+      #qrCanvas { width: 148px; height: 148px; }
+      .meta-strip { grid-template-columns: 1fr; }
+      .metric { border-right: 0; border-bottom: 1px solid var(--line); }
+      .metric:last-child { border-bottom: 0; }
+    }
+
+    @media (min-width: 760px) {
+      .page { padding: 32px 0 44px; }
+      .hero { padding: 30px; }
+      .portrait { width: 126px; height: 126px; }
+      h1 { font-size: 44px; }
+      .title { font-size: 17px; }
+      .quick-actions { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .content {
+        padding: 24px;
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+      }
+      .section.full { grid-column: 1 / -1; }
+    }
+
+    @media (min-width: 1040px) {
+      .profile {
+        grid-template-columns: 390px 1fr;
+        min-height: 720px;
+      }
+
+      .hero {
+        border-bottom: 0;
+        border-right: 1px solid var(--line);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 28px;
+      }
+
+      .portrait-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .portrait {
+        width: 184px;
+        height: 184px;
+      }
+
+      .quick-actions {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .content {
+        grid-template-columns: 1.08fr .92fr;
+        padding: 30px;
+        gap: 18px;
+      }
+
+      .section.contact { grid-row: span 2; }
+      .meta-strip { border-top: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="brandbar" aria-label="Company">
+      <a class="brand" href="#" aria-label="MedlinkAI">
+        <span class="mark">M</span>
+        <span>
+          <strong>MedlinkAI</strong>
+          <span>Connected healthcare intelligence</span>
+        </span>
+      </a>
+      <span class="language">繁 | EN</span>
+    </header>
+
+    <article class="shell profile">
+      <aside class="hero">
+        <div>
+          <div class="portrait-wrap">
+            <img class="portrait" src="./peter-huang-profile.png" alt="Peter Huang profile portrait">
+            <div class="identity">
+              <div class="eyebrow">Digital Business Card</div>
+              <h1>Peter Huang</h1>
+              <p class="title">Founder & CEO<br>MedlinkAI Healthcare Technology Limited</p>
+            </div>
+          </div>
+
+          <nav class="quick-actions" aria-label="Quick contact actions">
+            <a class="button primary" href="tel:+85261234567" aria-label="Call Peter Huang">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.92.33 1.82.63 2.68a2 2 0 0 1-.45 2.11L8.02 9.78a16 16 0 0 0 6.2 6.2l1.27-1.27a2 2 0 0 1 2.11-.45c.86.3 1.76.51 2.68.63A2 2 0 0 1 22 16.92Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Call
+            </a>
+            <a class="button accent" href="https://wa.me/85261234567" target="_blank" rel="noopener">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21a9 9 0 1 0-7.79-4.5L3 22l5.65-1.16A9 9 0 0 0 12 21Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8.8 8.7c.2-.45.42-.47.65-.47h.47c.16 0 .37.02.56.42.2.48.68 1.66.74 1.78.06.12.1.27.02.43-.1.17-.16.27-.3.42-.16.16-.32.35-.45.47-.15.14-.3.3-.13.58.16.29.72 1.18 1.55 1.91 1.06.95 1.96 1.24 2.24 1.38.28.14.45.12.61-.08.18-.2.7-.8.88-1.08.18-.28.38-.24.64-.14.27.1 1.7.8 1.99.95.29.14.48.22.55.34.08.12.08.7-.18 1.38-.26.68-1.47 1.3-2.05 1.34-.52.04-1.18.06-1.9-.12-.44-.12-1-.32-1.72-.63-3.02-1.3-4.99-4.34-5.14-4.54-.15-.2-1.23-1.63-1.23-3.12 0-1.48.78-2.21 1.05-2.52Z" fill="currentColor"/></svg>
+              WhatsApp
+            </a>
+            <a class="button" href="mailto:peter.huang@medlinkai.com">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"/><path d="m22 7-10 7L2 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Email
+            </a>
+            <button class="button" type="button" id="saveContact">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/><path d="M19 8v6M22 11h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Save
+            </button>
+          </nav>
+        </div>
+
+        <div class="meta-strip" aria-label="Professional highlights">
+          <div class="metric">
+            <b>15+</b>
+            <span>Years in digital health</span>
+          </div>
+          <div class="metric">
+            <b>HK / APAC</b>
+            <span>Clinical network focus</span>
+          </div>
+        </div>
+      </aside>
+
+      <section class="content">
+        <div class="section contact">
+          <h2>Contact</h2>
+          <div class="contact-list">
+            <a class="contact-row" href="tel:+85261234567">
+              <span class="mini"><svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.92.33 1.82.63 2.68a2 2 0 0 1-.45 2.11L8.02 9.78a16 16 0 0 0 6.2 6.2l1.27-1.27a2 2 0 0 1 2.11-.45c.86.3 1.76.51 2.68.63A2 2 0 0 1 22 16.92Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span><span class="label">Mobile</span><span class="value">+852 6123 4567</span></span>
+            </a>
+            <a class="contact-row" href="mailto:peter.huang@medlinkai.com">
+              <span class="mini"><svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"/><path d="m22 7-10 7L2 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span><span class="label">Email</span><span class="value">peter.huang@medlinkai.com</span></span>
+            </a>
+            <a class="contact-row" href="https://wa.me/85261234567" target="_blank" rel="noopener">
+              <span class="mini"><svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21a9 9 0 1 0-7.79-4.5L3 22l5.65-1.16A9 9 0 0 0 12 21Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
+              <span><span class="label">WhatsApp</span><span class="value">Chat on WhatsApp</span></span>
+            </a>
+            <a class="contact-row" href="https://www.linkedin.com/in/peter-huang-medlinkai" target="_blank" rel="noopener">
+              <span class="mini"><svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M2 9h4v12H2zM4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
+              <span><span class="label">LinkedIn</span><span class="value">peter-huang-medlinkai</span></span>
+            </a>
+            <div class="contact-row">
+              <span class="mini"><svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/></svg></span>
+              <span><span class="label">Address</span><span class="value">22/F, Two Taikoo Place, 979 King's Road, Quarry Bay, Hong Kong</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>About</h2>
+          <p class="bio">Peter Huang leads MedlinkAI in building healthcare search, patient navigation and provider intelligence products for clinics, insurers and corporate health teams. His work focuses on turning fragmented medical information into clearer decisions and faster access to care.</p>
+        </div>
+
+        <div class="section">
+          <h2>Qualifications</h2>
+          <div class="chips" aria-label="Professional qualifications">
+            <span class="chip">Digital Health Strategy</span>
+            <span class="chip">Healthcare AI Product Design</span>
+            <span class="chip">Provider Network Analytics</span>
+            <span class="chip">Corporate Health Solutions</span>
+            <span class="chip">APAC Market Development</span>
+          </div>
+        </div>
+
+        <div class="section full">
+          <h2>QR Code</h2>
+          <div class="qr-grid">
+            <canvas id="qrCanvas" width="164" height="164" aria-label="QR code for this digital business card"></canvas>
+            <div class="qr-copy">
+              <strong>Scan to open this card</strong>
+              <p>Use this area on desktop screens, printed cards, event badges or presentation slides. The QR content can point to a permanent URL such as <b>medlinkai.com/p/peter</b>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Contact file downloaded</div>
+
+  <script>
+    const person = {
+      name: "Peter Huang",
+      company: "MedlinkAI Healthcare Technology Limited",
+      title: "Founder & CEO",
+      mobile: "+85261234567",
+      email: "peter.huang@medlinkai.com",
+      linkedin: "https://www.linkedin.com/in/peter-huang-medlinkai",
+      url: "https://medlinkai.com/p/peter",
+      address: "22/F, Two Taikoo Place, 979 King's Road, Quarry Bay, Hong Kong"
+    };
+
+    function downloadVCard() {
+      const vcard = [
+        "BEGIN:VCARD",
+        "VERSION:3.0",
+        "N:Huang;Peter;;;",
+        "FN:" + person.name,
+        "ORG:" + person.company,
+        "TITLE:" + person.title,
+        "TEL;TYPE=CELL:" + person.mobile,
+        "EMAIL;TYPE=INTERNET:" + person.email,
+        "URL:" + person.url,
+        "ADR;TYPE=WORK:;;" + person.address + ";;;;",
+        "END:VCARD"
+      ].join("\\n");
+
+      const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "peter-huang-medlinkai.vcf";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+      showToast();
+    }
+
+    function showToast() {
+      const toast = document.getElementById("toast");
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2200);
+    }
+
+    function drawDemoQr() {
+      const canvas = document.getElementById("qrCanvas");
+      const ctx = canvas.getContext("2d");
+      const size = canvas.width;
+      const cells = 29;
+      const margin = 10;
+      const cell = (size - margin * 2) / cells;
+
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, size, size);
+      ctx.fillStyle = "#10202f";
+
+      function square(x, y, w, color = "#10202f") {
+        ctx.fillStyle = color;
+        ctx.fillRect(Math.round(margin + x * cell), Math.round(margin + y * cell), Math.ceil(w * cell), Math.ceil(w * cell));
+      }
+
+      function finder(x, y) {
+        square(x, y, 7);
+        square(x + 1, y + 1, 5, "#ffffff");
+        square(x + 2, y + 2, 3);
+      }
+
+      finder(0, 0);
+      finder(22, 0);
+      finder(0, 22);
+
+      let seed = 0;
+      for (let i = 0; i < person.url.length; i++) seed = (seed * 31 + person.url.charCodeAt(i)) % 9973;
+
+      for (let y = 0; y < cells; y++) {
+        for (let x = 0; x < cells; x++) {
+          const inFinder = (x < 8 && y < 8) || (x > 20 && y < 8) || (x < 8 && y > 20);
+          if (inFinder) continue;
+          const value = (x * 17 + y * 23 + seed + (x * y)) % 11;
+          if (value === 0 || value === 3 || value === 7) square(x, y, 1, (x + y) % 9 === 0 ? "#078a8f" : "#10202f");
+        }
+      }
+    }
+
+    document.getElementById("saveContact").addEventListener("click", downloadVCard);
+    drawDemoQr();
+  </script>
+</body>
+</html>
