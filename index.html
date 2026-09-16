@@ -122,13 +122,15 @@
     }
 
     .portrait {
-      width: 92px;
-      height: 92px;
+      width: 112px;
+      height: 140px;
       border-radius: 8px;
       object-fit: cover;
+      object-position: center 18%;
       border: 3px solid white;
       box-shadow: 0 14px 36px rgba(16, 32, 47, .18);
       flex: 0 0 auto;
+      background: #d8e3e7;
     }
 
     .identity {
@@ -372,7 +374,7 @@
       .language { display: none; }
       .hero { padding: 18px; }
       .portrait-wrap { align-items: flex-start; }
-      .portrait { width: 82px; height: 82px; }
+      .portrait { width: 88px; height: 110px; }
       h1 { font-size: 27px; }
       .quick-actions { grid-template-columns: 1fr; }
       .content { padding: 12px; }
@@ -387,7 +389,7 @@
     @media (min-width: 760px) {
       .page { padding: 32px 0 44px; }
       .hero { padding: 30px; }
-      .portrait { width: 126px; height: 126px; }
+      .portrait { width: 138px; height: 172px; }
       h1 { font-size: 44px; }
       .title { font-size: 17px; }
       .quick-actions { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -420,8 +422,9 @@
       }
 
       .portrait {
-        width: 184px;
-        height: 184px;
+        width: 232px;
+        height: 290px;
+        object-position: center 14%;
       }
 
       .quick-actions {
