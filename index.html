@@ -7,16 +7,15 @@
   <meta name="description" content="Ying Huang 的 MedlinkAI 企業電子名片原型">
   <style>
     :root {
-      --ink: #10202f;
-      --muted: #667787;
-      --line: #dce7ec;
-      --soft: #f5faf9;
+      --ink: #152630;
+      --muted: #64757d;
+      --line: #d7e2e3;
+      --soft: #eef6f4;
       --panel: #ffffff;
-      --teal: #078a8f;
-      --teal-dark: #05666b;
-      --blue: #1f5f99;
-      --amber: #d89a3a;
-      --shadow: 0 24px 70px rgba(16, 32, 47, .14);
+      --teal: #0a7779;
+      --teal-dark: #075b5e;
+      --blue: #456b82;
+      --shadow: 0 24px 64px rgba(38, 57, 64, .13);
       --radius: 8px;
     }
 
@@ -27,9 +26,7 @@
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
       color: var(--ink);
       background:
-        linear-gradient(140deg, rgba(7, 138, 143, .13), rgba(31, 95, 153, .08) 38%, rgba(255,255,255,0) 62%),
-        radial-gradient(circle at 85% 12%, rgba(216, 154, 58, .12), rgba(255,255,255,0) 26%),
-        #f7fbfc;
+        linear-gradient(135deg, #e8f1f2 0%, #f4f3f1 50%, #edf2f4 100%);
       min-height: 100vh;
       letter-spacing: 0;
     }
@@ -66,7 +63,7 @@
       background: linear-gradient(135deg, var(--teal), var(--blue));
       color: white;
       font-weight: 800;
-      box-shadow: 0 10px 24px rgba(7, 138, 143, .24);
+      box-shadow: 0 9px 22px rgba(10, 92, 94, .2);
       flex: 0 0 auto;
     }
 
@@ -97,8 +94,8 @@
     }
 
     .shell {
-      background: rgba(255,255,255,.86);
-      border: 1px solid rgba(220, 231, 236, .9);
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(211, 222, 223, .96);
       border-radius: 8px;
       box-shadow: var(--shadow);
       overflow: hidden;
@@ -110,7 +107,7 @@
     }
 
     .hero {
-      background: linear-gradient(160deg, rgba(7, 138, 143, .12), rgba(31, 95, 153, .06)), var(--panel);
+      background: linear-gradient(155deg, #e3efee 0%, #edf1f0 58%, #eee9e8 100%);
       padding: 22px;
       border-bottom: 1px solid var(--line);
     }
@@ -121,16 +118,23 @@
       gap: 16px;
     }
 
-    .portrait {
+    .portrait-frame {
       width: 112px;
-      height: 140px;
-      border-radius: 8px;
-      object-fit: cover;
-      object-position: center 18%;
-      border: 3px solid white;
-      box-shadow: 0 14px 36px rgba(16, 32, 47, .18);
+      height: 134px;
       flex: 0 0 auto;
-      background: #d8e3e7;
+      overflow: hidden;
+    }
+
+    .portrait {
+      display: block;
+      width: 215%;
+      max-width: none;
+      height: auto;
+      margin-left: 50%;
+      transform: translate(-50%, -1.8%);
+      filter: saturate(.96) contrast(1.015);
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 91%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 91%, transparent 100%);
     }
 
     .identity {
@@ -188,7 +192,7 @@
 
     .button:hover {
       transform: translateY(-1px);
-      border-color: rgba(7, 138, 143, .42);
+      border-color: rgba(10, 119, 121, .42);
       box-shadow: 0 10px 22px rgba(16, 32, 47, .08);
     }
 
@@ -199,8 +203,8 @@
     }
 
     .button.accent {
-      background: #eaf8f6;
-      border-color: #bfe5df;
+      background: #e9f4f2;
+      border-color: #bdded9;
       color: var(--teal-dark);
     }
 
@@ -268,7 +272,7 @@
 
     .bio {
       margin: 0;
-      color: #324656;
+      color: #334850;
       line-height: 1.72;
       font-size: 15px;
     }
@@ -280,11 +284,11 @@
     }
 
     .chip {
-      border: 1px solid #cfe2e7;
-      background: #f8fcfc;
+      border: 1px solid #cbdcdd;
+      background: #f6faf9;
       border-radius: 999px;
       padding: 8px 10px;
-      color: #274352;
+      color: #29444b;
       font-size: 13px;
       font-weight: 650;
     }
@@ -322,7 +326,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       border-top: 1px solid var(--line);
-      background: #fbfdfd;
+      background: #f8fbfa;
     }
 
     .metric {
@@ -352,7 +356,7 @@
       transform: translateX(-50%) translateY(18px);
       opacity: 0;
       pointer-events: none;
-      background: #10202f;
+      background: var(--ink);
       color: white;
       border-radius: 999px;
       padding: 10px 14px;
@@ -374,7 +378,7 @@
       .language { display: none; }
       .hero { padding: 18px; }
       .portrait-wrap { align-items: flex-start; }
-      .portrait { width: 88px; height: 110px; }
+      .portrait-frame { width: 88px; height: 105px; }
       h1 { font-size: 27px; }
       .quick-actions { grid-template-columns: 1fr; }
       .content { padding: 12px; }
@@ -389,7 +393,7 @@
     @media (min-width: 760px) {
       .page { padding: 32px 0 44px; }
       .hero { padding: 30px; }
-      .portrait { width: 138px; height: 172px; }
+      .portrait-frame { width: 138px; height: 166px; }
       h1 { font-size: 44px; }
       .title { font-size: 17px; }
       .quick-actions { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -421,10 +425,9 @@
         align-items: flex-start;
       }
 
-      .portrait {
-        width: 232px;
-        height: 290px;
-        object-position: center 14%;
+      .portrait-frame {
+        width: 250px;
+        height: 300px;
       }
 
       .quick-actions {
@@ -459,7 +462,9 @@
       <aside class="hero">
         <div>
           <div class="portrait-wrap">
-            <img class="portrait" src="./peter-huang-profile.jpg" alt="Peter Huang profile portrait">
+            <div class="portrait-frame">
+              <img class="portrait" src="./peter-huang-profile-transparent.png" alt="Peter Huang profile portrait">
+            </div>
             <div class="identity">
               <div class="eyebrow">Digital Business Card</div>
               <h1>Ying Huang</h1>
@@ -634,7 +639,7 @@
           const inFinder = (x < 8 && y < 8) || (x > 20 && y < 8) || (x < 8 && y > 20);
           if (inFinder) continue;
           const value = (x * 17 + y * 23 + seed + (x * y)) % 11;
-          if (value === 0 || value === 3 || value === 7) square(x, y, 1, (x + y) % 9 === 0 ? "#078a8f" : "#10202f");
+          if (value === 0 || value === 3 || value === 7) square(x, y, 1, (x + y) % 9 === 0 ? "#0a7779" : "#152630");
         }
       }
     }
