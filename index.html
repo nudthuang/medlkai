@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MedlinkAI | Peter(Ying Huang)</title>
-  <meta name="description" content="Ying Huang 的 MedlinkAI 企業電子名片原型">
+  <meta name="description" content="Ying Huang's MedlinkAI digital business card">
   <style>
     :root {
       --ink: #152630;
@@ -84,13 +84,42 @@
     }
 
     .language {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
       border: 1px solid var(--line);
       background: rgba(255,255,255,.72);
       border-radius: 999px;
-      padding: 8px 12px;
+      padding: 3px;
       color: var(--muted);
-      font-size: 13px;
       flex: 0 0 auto;
+    }
+
+    .language button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      min-width: 38px;
+      height: 30px;
+      padding: 0 9px;
+      background: transparent;
+      color: inherit;
+      font: 700 12px/1 inherit;
+      cursor: pointer;
+      transition: color .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+
+    .language button:hover { color: var(--teal-dark); }
+
+    .language button.active {
+      background: white;
+      color: var(--teal-dark);
+      box-shadow: 0 2px 8px rgba(38, 57, 64, .12);
+    }
+
+    .language button:focus-visible {
+      outline: 2px solid rgba(10, 119, 121, .42);
+      outline-offset: 1px;
     }
 
     .shell {
@@ -300,7 +329,7 @@
       align-items: center;
     }
 
-    #qrCanvas {
+    #qrCode {
       width: 138px;
       height: 138px;
       border-radius: 8px;
@@ -375,7 +404,7 @@
     @media (max-width: 420px) {
       .page { width: min(100% - 20px, 1180px); padding-top: 12px; }
       .brandbar { align-items: flex-start; }
-      .language { display: none; }
+      .language button { min-width: 34px; padding: 0 7px; }
       .hero { padding: 18px; }
       .portrait-wrap { align-items: flex-start; }
       .portrait-frame { width: 88px; height: 105px; }
@@ -384,7 +413,7 @@
       .content { padding: 12px; }
       .section { padding: 15px; }
       .qr-grid { grid-template-columns: 1fr; }
-      #qrCanvas { width: 148px; height: 148px; }
+      #qrCode { width: 148px; height: 148px; }
       .meta-strip { grid-template-columns: 1fr; }
       .metric { border-right: 0; border-bottom: 1px solid var(--line); }
       .metric:last-child { border-bottom: 0; }
@@ -452,10 +481,14 @@
         <span class="mark">M</span>
         <span>
           <strong>MedlinkAI</strong>
-          <span>Connected healthcare intelligence</span>
+          <span data-i18n="tagline">Connected healthcare intelligence</span>
         </span>
       </a>
-      <span class="language">繁 | EN</span>
+      <div class="language" role="group" aria-label="Language">
+        <button type="button" data-lang="zh-Hant" lang="zh-Hant">繁</button>
+        <button type="button" data-lang="zh-Hans" lang="zh-Hans">简</button>
+        <button type="button" data-lang="en" lang="en" class="active">EN</button>
+      </div>
     </header>
 
     <article class="shell profile">
@@ -466,28 +499,28 @@
               <img class="portrait" src="./peter-huang-profile-transparent.png" alt="Peter Huang profile portrait">
             </div>
             <div class="identity">
-              <div class="eyebrow">Digital Business Card</div>
-              <h1>Ying Huang</h1>
-              <p class="title">Founder & CEO<br>MedlinkAI Limited</p>
+              <div class="eyebrow" data-i18n="cardType">Digital Business Card</div>
+              <h1 data-i18n="name">Ying Huang</h1>
+              <p class="title"><span data-i18n="role">Founder & CEO</span><br><span data-i18n="company">MedlinkAI Limited</span></p>
             </div>
           </div>
 
           <nav class="quick-actions" aria-label="Quick contact actions">
             <a class="button primary" href="tel:+85269300761" aria-label="Call Peter Huang">
               <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.92.33 1.82.63 2.68a2 2 0 0 1-.45 2.11L8.02 9.78a16 16 0 0 0 6.2 6.2l1.27-1.27a2 2 0 0 1 2.11-.45c.86.3 1.76.51 2.68.63A2 2 0 0 1 22 16.92Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Call
+              <span data-i18n="call">Call</span>
             </a>
             <a class="button accent" href="https://wa.me/85269300761" target="_blank" rel="noopener">
               <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21a9 9 0 1 0-7.79-4.5L3 22l5.65-1.16A9 9 0 0 0 12 21Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8.8 8.7c.2-.45.42-.47.65-.47h.47c.16 0 .37.02.56.42.2.48.68 1.66.74 1.78.06.12.1.27.02.43-.1.17-.16.27-.3.42-.16.16-.32.35-.45.47-.15.14-.3.3-.13.58.16.29.72 1.18 1.55 1.91 1.06.95 1.96 1.24 2.24 1.38.28.14.45.12.61-.08.18-.2.7-.8.88-1.08.18-.28.38-.24.64-.14.27.1 1.7.8 1.99.95.29.14.48.22.55.34.08.12.08.7-.18 1.38-.26.68-1.47 1.3-2.05 1.34-.52.04-1.18.06-1.9-.12-.44-.12-1-.32-1.72-.63-3.02-1.3-4.99-4.34-5.14-4.54-.15-.2-1.23-1.63-1.23-3.12 0-1.48.78-2.21 1.05-2.52Z" fill="currentColor"/></svg>
-              WhatsApp
+              <span data-i18n="whatsappButton">WhatsApp</span>
             </a>
-            <a class="button" href="mailto:huangying@medlinkai.com">
+            <a class="button" href="mailto:huangying@medlkai.com">
               <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"/><path d="m22 7-10 7L2 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Email
+              <span data-i18n="emailButton">Email</span>
             </a>
             <button class="button" type="button" id="saveContact">
               <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/><path d="M19 8v6M22 11h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-              Save
+              <span data-i18n="save">Save</span>
             </button>
           </nav>
         </div>
@@ -495,61 +528,61 @@
         <div class="meta-strip" aria-label="Professional highlights">
           <div class="metric">
             <b>20</b>
-            <span>Years in digital health</span>
+            <span data-i18n="years">Years in digital health</span>
           </div>
           <div class="metric">
             <b>HK / APAC</b>
-            <span>Clinical network focus</span>
+            <span data-i18n="regionFocus">Clinical network focus</span>
           </div>
         </div>
       </aside>
 
       <section class="content">
         <div class="section contact">
-          <h2>Contact</h2>
+          <h2 data-i18n="contact">Contact</h2>
           <div class="contact-list">
             <a class="contact-row" href="tel:+85269300761">
               <span class="mini"><svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.92.33 1.82.63 2.68a2 2 0 0 1-.45 2.11L8.02 9.78a16 16 0 0 0 6.2 6.2l1.27-1.27a2 2 0 0 1 2.11-.45c.86.3 1.76.51 2.68.63A2 2 0 0 1 22 16.92Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-              <span><span class="label">Mobile: </span><span class="value">+852 6930 0761</span></span>
+              <span><span class="label" data-i18n="mobileLabel">Mobile: </span><span class="value">+852 6930 0761</span></span>
             </a>
             <a class="contact-row" href="mailto:huangying@medlkai.com">
               <span class="mini"><svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"/><path d="m22 7-10 7L2 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-              <span><span class="label">Email: </span><span class="value">huangying@medlkai.com</span></span>
+              <span><span class="label" data-i18n="emailLabel">Email: </span><span class="value">huangying@medlkai.com</span></span>
             </a>
             <a class="contact-row" href="https://wa.me/85269300761" target="_blank" rel="noopener">
               <span class="mini"><svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21a9 9 0 1 0-7.79-4.5L3 22l5.65-1.16A9 9 0 0 0 12 21Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
-              <span><span class="label">WhatsApp: </span><span class="value">Chat on WhatsApp</span></span>
+              <span><span class="label">WhatsApp: </span><span class="value" data-i18n="whatsappValue">Chat on WhatsApp</span></span>
             </a>
-            <div class="contact-row">
+            <a class="contact-row" href="weixin://dl/chat?PETERHUANGY" id="wechatContact">
               <span class="mini"><svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8.5 10.5h.01M13.5 10.5h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M3 11.2C3 7.25 6.58 4 11 4s8 3.25 8 7.2-3.58 7.2-8 7.2c-.9 0-1.77-.13-2.58-.39L4.5 20l1.05-3.34C3.98 15.36 3 13.43 3 11.2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M16.5 13.2h.01M21 15.3c0 1.46-.64 2.78-1.68 3.76L20 21l-2.41-1.03c-.57.18-1.18.27-1.82.27-1.75 0-3.3-.75-4.24-1.9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-              <span><span class="label">WeChat: </span><span class="value">PETERHUANGY</span></span>
-            </div>
+              <span><span class="label" data-i18n="wechatLabel">WeChat: </span><span class="value">PETERHUANGY</span></span>
+            </a>
           </div>
         </div>
 
         <div class="section">
-          <h2>About</h2>
-          <p class="bio">Peter(Ying Huang) is a seasoned Health Informatics executive with hands-on experience across the healthcare ecosystem, spanning care delivery, health insurance, and patient-facing digital health services. His work spans the development and implementation of HIS, EHR, LIS, and PACS; pioneering contributions to the national-level policy framework, system architecture, and supporting information platforms underpinning China’s healthcare security system, with implementations across 30+ provincial-level regions and 300+ prefecture-level cities; and pioneering work in China’s online-to-offline healthcare services and sustainable digital health business models. At MedlinkAI, he leads the development and real-world application of healthcare AI agents for health search, care navigation, and intelligent service workflows.</p>
+          <h2 data-i18n="aboutTitle">About</h2>
+          <p class="bio" data-i18n="about">Peter (Ying Huang) is a seasoned Health Informatics executive with hands-on experience across the healthcare ecosystem, spanning care delivery, healthcare security, and patient-facing digital health services. His work spans the development and implementation of HIS, EHR, LIS, and PACS; pioneering contributions to the national-level policy framework, system architecture, and supporting information platforms underpinning China’s healthcare security system, with implementations across 30+ provincial-level regions and 300+ prefecture-level cities; and pioneering work in China’s online-to-offline healthcare services and sustainable digital health business models. At MedlinkAI, he leads the development and real-world application of healthcare AI agents for health search, care navigation, and intelligent service workflows.</p>
         </div>
 
         <div class="section">
-          <h2>Qualifications</h2>
+          <h2 data-i18n="qualifications">Qualifications</h2>
           <div class="chips" aria-label="Professional qualifications">
-            <span class="chip">Digital Health Strategy</span>
-            <span class="chip">Healthcare AI Product Design</span>
-            <span class="chip">Smart Hospital Solutions</span>
-            <span class="chip">Corporate Health Solutions</span>
-            <span class="chip">APAC Market Development</span>
+            <span class="chip" data-i18n="qualification1">Digital Health Strategy</span>
+            <span class="chip" data-i18n="qualification2">Healthcare AI Product Design</span>
+            <span class="chip" data-i18n="qualification3">Smart Hospital Solutions</span>
+            <span class="chip" data-i18n="qualification4">Corporate Health Solutions</span>
+            <span class="chip" data-i18n="qualification5">APAC Market Development</span>
           </div>
         </div>
 
         <div class="section full">
-          <h2>QR Code</h2>
+          <h2 data-i18n="qrTitle">QR Code</h2>
           <div class="qr-grid">
-            <canvas id="qrCanvas" width="164" height="164" aria-label="QR code for this digital business card"></canvas>
+            <img id="qrCode" src="./business-card-qr.png" alt="QR code for this digital business card">
             <div class="qr-copy">
-              <strong>Scan to open this card</strong>
-              <p>Use this area on desktop screens, printed cards, event badges or presentation slides. The QR content can point to a permanent URL such as <b>medlinkai.com/p/peter</b>.</p>
+              <strong data-i18n="qrHeading">Scan to open this card</strong>
+              <p><span data-i18n="qrCopy">Use this area on desktop screens, printed cards, event badges or presentation slides. This QR Code opens</span> <b>nudthuang.github.io/medlkai/</b>.</p>
             </div>
           </div>
         </div>
@@ -557,9 +590,137 @@
     </article>
   </main>
 
-  <div class="toast" id="toast" role="status" aria-live="polite">Contact file downloaded</div>
+  <div class="toast" id="toast" role="status" aria-live="polite" data-i18n="downloaded">Contact file downloaded</div>
 
   <script>
+    const translations = {
+      en: {
+        tagline: "Connected healthcare intelligence",
+        cardType: "Digital Business Card",
+        name: "Ying Huang",
+        role: "Founder & CEO",
+        company: "MedlinkAI Limited",
+        call: "Call",
+        whatsappButton: "WhatsApp",
+        emailButton: "Email",
+        save: "Save",
+        years: "Years in digital health",
+        regionFocus: "HK / APAC healthcare network",
+        contact: "Contact",
+        mobileLabel: "Mobile: ",
+        emailLabel: "Email: ",
+        whatsappValue: "Chat on WhatsApp",
+        wechatLabel: "WeChat: ",
+        aboutTitle: "About",
+        about: "Peter (Ying Huang) is a seasoned Health Informatics executive with hands-on experience across the healthcare ecosystem, spanning care delivery, healthcare security, and patient-facing digital health services. His work spans the development and implementation of HIS, EHR, LIS, and PACS; pioneering contributions to the national-level policy framework, system architecture, and supporting information platforms underpinning China’s healthcare security system, with implementations across 30+ provincial-level regions and 300+ prefecture-level cities; and pioneering work in China’s online-to-offline healthcare services and sustainable digital health business models. At MedlinkAI, he leads the development and real-world application of healthcare AI agents for health search, care navigation, and intelligent service workflows.",
+        qualifications: "Qualifications",
+        qualification1: "Digital Health Strategy",
+        qualification2: "Healthcare AI Product Design",
+        qualification3: "Smart Hospital Solutions",
+        qualification4: "Corporate Health Solutions",
+        qualification5: "APAC Market Development",
+        qrTitle: "QR Code",
+        qrHeading: "Scan to open this card",
+        qrCopy: "Use this area on desktop screens, printed cards, event badges or presentation slides. This QR Code opens",
+        downloaded: "Contact file downloaded",
+        wechatCopied: "WeChat ID copied. Opening WeChat…",
+        metaDescription: "Ying Huang's MedlinkAI digital business card"
+      },
+      "zh-Hant": {
+        tagline: "連結醫療智慧",
+        cardType: "企業電子名片",
+        name: "黃影",
+        role: "創辦人兼行政總裁",
+        company: "MedlinkAI有限公司",
+        call: "致電",
+        whatsappButton: "WhatsApp",
+        emailButton: "電郵",
+        save: "儲存聯絡人",
+        years: "年數位健康經驗",
+        regionFocus: "香港及亞太醫療網絡",
+        contact: "聯絡方式",
+        mobileLabel: "手機：",
+        emailLabel: "電郵：",
+        whatsappValue: "透過WhatsApp聯絡",
+        wechatLabel: "微信：",
+        aboutTitle: "專業簡介",
+        about: "Peter（黃影）是一位資深醫療資訊學管理者，在醫療服務、醫療保障及面向患者的數位健康服務領域擁有深厚的實務經驗。他的專業實踐涵蓋HIS、EHR、LIS及PACS的研發與落地；在中國醫療保障體系的國家級政策框架、系統架構及配套資訊平台建設中作出開創性貢獻，相關項目覆蓋30多個省級行政區及300多個地級市；亦是中國線上線下整合醫療服務與可持續數位健康商業模式的先行實踐者。在MedlinkAI，他帶領團隊研發並落地醫療AI智能體，應用於健康搜尋、就醫導航及智能服務流程。",
+        qualifications: "專業領域",
+        qualification1: "數位健康策略",
+        qualification2: "醫療AI產品設計",
+        qualification3: "智慧醫院解決方案",
+        qualification4: "企業健康解決方案",
+        qualification5: "亞太市場拓展",
+        qrTitle: "QR Code",
+        qrHeading: "掃描開啟此名片",
+        qrCopy: "適用於桌面螢幕、紙本名片、活動證件或簡報。此QR Code將開啟",
+        downloaded: "聯絡人檔案已下載",
+        wechatCopied: "微信號已複製，正在開啟微信…",
+        metaDescription: "黃影的MedlinkAI企業電子名片"
+      },
+      "zh-Hans": {
+        tagline: "连接医疗智慧",
+        cardType: "企业电子名片",
+        name: "黄影",
+        role: "创始人兼首席执行官",
+        company: "MedlinkAI有限公司",
+        call: "拨打电话",
+        whatsappButton: "WhatsApp",
+        emailButton: "邮件",
+        save: "保存联系人",
+        years: "年数字健康经验",
+        regionFocus: "香港及亚太医疗网络",
+        contact: "联系方式",
+        mobileLabel: "手机：",
+        emailLabel: "邮箱：",
+        whatsappValue: "通过WhatsApp联系",
+        wechatLabel: "微信：",
+        aboutTitle: "专业简介",
+        about: "Peter（黄影）是一位资深医疗信息学管理者，在医疗服务、医疗保障及面向患者的数字健康服务领域拥有深厚的实践经验。他的专业实践涵盖HIS、EHR、LIS及PACS的研发与落地；在中国医疗保障体系的国家级政策框架、系统架构及配套信息平台建设中作出开创性贡献，相关项目覆盖30多个省级行政区及300多个地级市；也是中国线上线下一体化医疗服务与可持续数字健康商业模式的先行实践者。在MedlinkAI，他带领团队研发并落地医疗AI智能体，应用于健康搜索、就医导航及智能服务流程。",
+        qualifications: "专业领域",
+        qualification1: "数字健康战略",
+        qualification2: "医疗AI产品设计",
+        qualification3: "智慧医院解决方案",
+        qualification4: "企业健康解决方案",
+        qualification5: "亚太市场拓展",
+        qrTitle: "二维码",
+        qrHeading: "扫码打开此名片",
+        qrCopy: "适用于电脑屏幕、纸质名片、活动证件或演示文稿。此二维码将打开",
+        downloaded: "联系人文件已下载",
+        wechatCopied: "微信号已复制，正在打开微信…",
+        metaDescription: "黄影的MedlinkAI企业电子名片"
+      }
+    };
+
+    let currentLanguage = "en";
+
+    function applyLanguage(language, updateUrl = true) {
+      const lang = translations[language] ? language : "en";
+      const copy = translations[lang];
+      currentLanguage = lang;
+
+      document.documentElement.lang = lang;
+      document.querySelectorAll("[data-i18n]").forEach((element) => {
+        const key = element.dataset.i18n;
+        if (copy[key]) element.textContent = copy[key];
+      });
+      document.querySelector('meta[name="description"]').content = copy.metaDescription;
+
+      document.querySelectorAll("[data-lang]").forEach((button) => {
+        const isActive = button.dataset.lang === lang;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
+      });
+
+      try { localStorage.setItem("medlinkai-language", lang); } catch (error) {}
+
+      if (updateUrl) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("lang", lang);
+        history.replaceState(null, "", url);
+      }
+    }
+
     const person = {
       name: "Ying Huang",
       company: "MedlinkAI Healthcare Technology Limited",
@@ -567,7 +728,7 @@
       mobile: "+85269300761",
       email: "huangying@medlkai.com",
       wechat: "PETERHUANGY",
-      url: "https://medlinkai.com/p/peter",
+      url: "https://nudthuang.github.io/medlkai/",
       address: "22/F, Two Taikoo Place, 979 King's Road, Quarry Bay, Hong Kong"
     };
 
@@ -595,57 +756,53 @@
       link.click();
       link.remove();
       setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-      showToast();
+      showToast("downloaded");
     }
 
-    function showToast() {
+    function showToast(messageKey) {
       const toast = document.getElementById("toast");
+      toast.textContent = translations[currentLanguage][messageKey];
       toast.classList.add("show");
       setTimeout(() => toast.classList.remove("show"), 2200);
     }
 
-    function drawDemoQr() {
-      const canvas = document.getElementById("qrCanvas");
-      const ctx = canvas.getContext("2d");
-      const size = canvas.width;
-      const cells = 29;
-      const margin = 10;
-      const cell = (size - margin * 2) / cells;
-
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, size, size);
-      ctx.fillStyle = "#10202f";
-
-      function square(x, y, w, color = "#10202f") {
-        ctx.fillStyle = color;
-        ctx.fillRect(Math.round(margin + x * cell), Math.round(margin + y * cell), Math.ceil(w * cell), Math.ceil(w * cell));
+    function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
       }
 
-      function finder(x, y) {
-        square(x, y, 7);
-        square(x + 1, y + 1, 5, "#ffffff");
-        square(x + 2, y + 2, 3);
-      }
-
-      finder(0, 0);
-      finder(22, 0);
-      finder(0, 22);
-
-      let seed = 0;
-      for (let i = 0; i < person.url.length; i++) seed = (seed * 31 + person.url.charCodeAt(i)) % 9973;
-
-      for (let y = 0; y < cells; y++) {
-        for (let x = 0; x < cells; x++) {
-          const inFinder = (x < 8 && y < 8) || (x > 20 && y < 8) || (x < 8 && y > 20);
-          if (inFinder) continue;
-          const value = (x * 17 + y * 23 + seed + (x * y)) % 11;
-          if (value === 0 || value === 3 || value === 7) square(x, y, 1, (x + y) % 9 === 0 ? "#0a7779" : "#152630");
-        }
-      }
+      const input = document.createElement("textarea");
+      input.value = text;
+      input.setAttribute("readonly", "");
+      input.style.position = "fixed";
+      input.style.opacity = "0";
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      input.remove();
+      return Promise.resolve();
     }
 
+    function openWeChat(event) {
+      event.preventDefault();
+      const wechatUrl = event.currentTarget.href;
+      copyText(person.wechat).catch(() => {}).finally(() => {
+        showToast("wechatCopied");
+        setTimeout(() => { window.location.href = wechatUrl; }, 180);
+      });
+    }
+
+    document.querySelectorAll("[data-lang]").forEach((button) => {
+      button.addEventListener("click", () => applyLanguage(button.dataset.lang));
+    });
+
+    const requestedLanguage = new URLSearchParams(window.location.search).get("lang");
+    let savedLanguage = null;
+    try { savedLanguage = localStorage.getItem("medlinkai-language"); } catch (error) {}
+    applyLanguage(requestedLanguage || savedLanguage || "en", false);
+
     document.getElementById("saveContact").addEventListener("click", downloadVCard);
-    drawDemoQr();
+    document.getElementById("wechatContact").addEventListener("click", openWeChat);
   </script>
 </body>
 </html>
